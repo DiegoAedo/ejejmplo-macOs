@@ -1,0 +1,36 @@
+name: Build ejejmplo on macOS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Maven
+        uses: sormuras/actions/setup-maven@v11
+
+      - name: Download GraalVM CE for Java 17
+        run: |
+          echo "Downloading GraalVM CE for Java 17..."
+          curl -L -o graalvm.tar.gz "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.1/graalvm-ce-java17-darwin-amd64-22.3.1.tar.gz"
+          tar -xzf graalvm.tar.gz
+          echo "GRAALVM_HOME=$(pwd)/graalvm-ce-java17-22.3.1/Contents/Home" >> $GITHUB_ENV
+
+      - name: Build with Maven (GluonFX)
+        run: |
+          echo "Using GraalVM at: $GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home"
+          mvn clean gluonfx:build gluonfx:package -DgraalvmHome="$GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home"
