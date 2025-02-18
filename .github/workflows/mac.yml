@@ -1,6 +1,15 @@
+name: Build ejejmplo on macOS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
   build:
     runs-on: macos-latest
+
     steps:
       - uses: actions/checkout@v2
 
@@ -10,30 +19,19 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+
       - name: Set up Maven 3.8.8
         run: |
           curl -O https://archive.apache.org/dist/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz 
           tar -xzf apache-maven-3.8.8-bin.tar.gz
           echo "$(pwd)/apache-maven-3.8.8/bin" >> $GITHUB_PATH
-
       - name: Download GraalVM CE for Java 17
         run: |
+          echo "Downloading GraalVM CE for Java 17..."
           curl -L -o graalvm.tar.gz "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.1/graalvm-ce-java17-darwin-amd64-22.3.1.tar.gz"
           tar -xzf graalvm.tar.gz
           echo "GRAALVM_HOME=$(pwd)/graalvm-ce-java17-22.3.1/Contents/Home" >> $GITHUB_ENV
-
-      - name: Set release configuration variables
-        run: |
-          echo "RELEASE_VENDOR=MyCompany" >> $GITHUB_ENV
-          echo "RELEASE_DESCRIPTION=Aplicación Nativa de ejejmplo" >> $GITHUB_ENV
-          echo "RELEASE_PACKAGE_TYPE=dmg" >> $GITHUB_ENV
-          echo "RELEASE_MAC_APP_STORE=false" >> $GITHUB_ENV
-          echo "RELEASE_BUNDLE_NAME=ejejmplo" >> $GITHUB_ENV
-          echo "RELEASE_BUNDLE_SHORT_VERSION=1.0" >> $GITHUB_ENV
-          echo "RELEASE_BUNDLE_VERSION=1.0.0" >> $GITHUB_ENV
-          echo "RELEASE_VERSION_CODE=1" >> $GITHUB_ENV
-
       - name: Build with Maven (GluonFX)
         run: |
           echo "Using GraalVM at: $GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home"
-          mvn clean gluonfx:build gluonfx:package -DgraalvmHome="$GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home"
+          mvn clean gluonfx:build gluonfx:package -DgraalvmHome="$GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home" -DskipSigning=true
