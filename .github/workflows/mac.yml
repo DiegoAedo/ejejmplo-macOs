@@ -20,8 +20,10 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Maven
-        uses: sormuras/actions/setup-maven@v11
+      - name: Set up Maven 3.8.8
+        uses: sormuras/setup-maven@v11
+        with:
+          maven-version: '3.8.8'
 
       - name: Download GraalVM CE for Java 17
         run: |
