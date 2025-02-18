@@ -45,5 +45,6 @@ jobs:
       - name: Upload DMG artifact
         uses: actions/upload-artifact@v4
         with:
-            name: app-dmg
-            path: target/app.dmg
+          name: ejejmplo-dmg
+          path: target/gluonfx/x86_64-darwin/ejejmplo-1.0.0.dmg
+
