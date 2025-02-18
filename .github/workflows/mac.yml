@@ -35,9 +35,15 @@ jobs:
         run: |
           echo "Using GraalVM at: $GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home"
           mvn clean gluonfx:build gluonfx:package -DgraalvmHome="$GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home" -DskipSigning=true
+          
+
+      - name: List generated files
+        run: |
+          echo "Listando archivos en el directorio actual..."
+          find . -type f
 
       - name: Upload DMG artifact
         uses: actions/upload-artifact@v4
         with:
-            name: myApp-dmg
-            path: target/myApp.dmg
+            name: app-dmg
+            path: target/app.dmg
