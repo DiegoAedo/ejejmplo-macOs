@@ -58,7 +58,6 @@
                         <description>Aplicación Nativa de ejejmplo</description>
                         <packageType>dmg</packageType>
                         <macAppStore>false</macAppStore>
-                        <signApp>false</signApp>
                         <bundleName>ejejmplo</bundleName>
                         <bundleShortVersion>1.0</bundleShortVersion>
                         <bundleVersion>1.0.0</bundleVersion>
