@@ -19,13 +19,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-
       - name: Set up Maven 3.8.8
-        run: |  
+        run: |
           curl -O https://archive.apache.org/dist/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz 
           tar -xzf apache-maven-3.8.8-bin.tar.gz
           echo "$(pwd)/apache-maven-3.8.8/bin" >> $GITHUB_PATH
-
 
       - name: Download GraalVM CE for Java 17
         run: |
@@ -37,4 +35,10 @@ jobs:
       - name: Build with Maven (GluonFX)
         run: |
           echo "Using GraalVM at: $GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home"
-          mvn clean gluonfx:build gluonfx:package -DgraalvmHome="$GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home"
+          mvn clean gluonfx:build gluonfx:package -DgraalvmHome="$GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home" -DskipTests
+
+      - name: Upload dmg artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ejejmplo-dmg
+          path: target/gluonfx/x86_64-darwin/ejejmplo.dmg
