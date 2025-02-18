@@ -38,7 +38,7 @@ jobs:
           mvn clean gluonfx:build gluonfx:package -DgraalvmHome="$GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home" -DskipTests
 
       - name: Upload dmg artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: ejejmplo-dmg
           path: target/gluonfx/x86_64-darwin/ejejmplo.dmg
