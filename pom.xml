@@ -62,6 +62,7 @@
                         <bundleShortVersion>1.0</bundleShortVersion>
                         <bundleVersion>1.0.0</bundleVersion>
                         <versionCode>1</versionCode>
+                        <skipSigning>true</skipSigning>
                     </releaseConfiguration>
                     <runtimeArgs>
                         <runtimeArg>-H:+UnlockExperimentalVMOptions</runtimeArg>
