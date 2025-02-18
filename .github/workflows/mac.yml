@@ -32,6 +32,7 @@ jobs:
           curl -L -o graalvm.tar.gz "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.1/graalvm-ce-java17-darwin-amd64-22.3.1.tar.gz"
           tar -xzf graalvm.tar.gz
           echo "GRAALVM_HOME=$(pwd)/graalvm-ce-java17-22.3.1/Contents/Home" >> $GITHUB_ENV
+
       - name: Build with Maven (GluonFX)
         run: |
           echo "Using GraalVM at: $GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1/Contents/Home"
