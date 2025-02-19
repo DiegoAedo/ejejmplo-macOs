@@ -60,7 +60,10 @@ jobs:
       - name: Build and Package (GluonFX for Android)
         run: |
           echo "Using GraalVM at: $GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1"
-          mvn -Pandroid gluonfx:build gluonfx:package
+          mvn -Pandroid \
+            -Dsubstrate.androidHome=/usr/local/lib/android/sdk \
+            gluonfx:build gluonfx:package
+      
 
       # 8) En caso de fallo, mostrar logs de Substrate
       - name: Show Substrate logs on failure
