@@ -29,24 +29,18 @@ jobs:
           tar -xzf apache-maven-3.8.8-bin.tar.gz
           echo "$(pwd)/apache-maven-3.8.8/bin" >> $GITHUB_PATH
 
-      # 4) Setup Android SDK (v3), instalando Android 34
+      # 4) Instalar Android SDK con la acción v3 (ej. Android 34)
       - name: Setup Android SDK (v3)
         uses: android-actions/setup-android@v3
         with:
           cmdline-tools-version: "latest"
           accept-android-sdk-licenses: true
-          # Todos los paquetes en una sola línea, separados por espacio
           packages: 'platforms;android-34 build-tools;34.0.0 platform-tools extras;android;m2repository extras;google;m2repository'
 
-      # 5) Exportar variables para que Substrate sepa dónde está el SDK
-      - name: Set ANDROID_SDK vars
-        run: |
-          echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> $GITHUB_ENV
-          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
-
-      # (Opcional) Mostrar variables de entorno para debug
-      - name: Print environment
-        run: env
+      # 5) SOLAMENTE define ANDROID_HOME
+      #    (No definas ANDROID_SDK_ROOT también)
+      - name: Set ANDROID_HOME
+        run: echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
 
       # 6) Descargar GraalVM CE para Java 17
       - name: Download GraalVM CE for Java 17
@@ -56,14 +50,13 @@ jobs:
           tar -xzf graalvm.tar.gz
           echo "GRAALVM_HOME=$(pwd)/graalvm-ce-java17-22.3.1" >> $GITHUB_ENV
 
-      # 7) Compilar y empacar con GluonFX para Android
+      # 7) Compilar y empacar con GluonFX para Android, forzando androidHome
       - name: Build and Package (GluonFX for Android)
         run: |
           echo "Using GraalVM at: $GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1"
           mvn -Pandroid \
-            -Dsubstrate.androidHome=/usr/local/lib/android/sdk \
+            -Dsubstrate.androidHome="/usr/local/lib/android/sdk" \
             gluonfx:build gluonfx:package
-      
 
       # 8) En caso de fallo, mostrar logs de Substrate
       - name: Show Substrate logs on failure
@@ -74,7 +67,7 @@ jobs:
           echo "=== Showing log files ==="
           cat target/gluonfx/log/*.log || true
 
-      # (Opcional) Subir los logs como artifact si falla
+      # Subir logs si falla
       - name: Upload Substrate logs
         if: failure()
         uses: actions/upload-artifact@v4
@@ -82,11 +75,11 @@ jobs:
           name: substrate-logs
           path: target/gluonfx/log/
 
-      # 9) Listar archivos finales (siempre)
+      # 9) Listar archivos finales
       - name: List generated files
         run: find . -type f
 
-      # 10) Subir el APK como artifact (si se generó)
+      # 10) Subir el APK como artifact
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
