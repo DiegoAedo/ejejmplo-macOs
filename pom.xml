@@ -16,6 +16,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <!-- Versión del plugin GluonFX -->
         <gluonfx.maven.plugin.version>1.0.23</gluonfx.maven.plugin.version>
+        <!-- Clase principal -->
+        <mainClass>com.example.Main</mainClass>
         <!-- Valores por defecto para macOS -->
         <target>host</target>
         <packageType>dmg</packageType>
@@ -52,16 +54,12 @@
                 <artifactId>gluonfx-maven-plugin</artifactId>
                 <version>${gluonfx.maven.plugin.version}</version>
                 <configuration>
-                    <!-- Clase principal (asegúrate de que exista en src/main/java) -->
-                    <mainClass>com.example.Main</mainClass>
-                    <!-- Usamos la propiedad 'target' para diferenciar entre macOS y Android -->
+                    <mainClass>${mainClass}</mainClass>
                     <target>${target}</target>
                     <releaseConfiguration>
                         <vendor>MyCompany</vendor>
                         <description>Aplicación Nativa de ejejmplo</description>
-                        <!-- Usamos la propiedad 'packageType'; para macOS sería 'dmg' y para Android 'apk' -->
                         <packageType>${packageType}</packageType>
-                        <!-- Los siguientes parámetros son específicos para macOS; para Android pueden omitirse o ajustarse según la documentación -->
                         <macAppStore>false</macAppStore>
                         <bundleName>ejejmplo</bundleName>
                         <bundleShortVersion>1.0</bundleShortVersion>
@@ -69,7 +67,7 @@
                         <versionCode>1</versionCode>
                         <skipSigning>true</skipSigning>
                     </releaseConfiguration>
-                    <!-- Los runtimeArgs pueden mantenerse o ajustarse si fueran necesarios para Android -->
+                    <!-- runtimeArgs para macOS; se eliminarán en el perfil Android -->
                     <runtimeArgs>
                         <runtimeArg>-H:+UnlockExperimentalVMOptions</runtimeArg>
                         <runtimeArg>--report-unsupported-elements-at-runtime</runtimeArg>
@@ -101,8 +99,9 @@
         </plugins>
     </build>
 
-    <!-- Definición de perfiles para poder compilar para macOS o Android -->
+    <!-- Definición de perfiles -->
     <profiles>
+        <!-- Perfil para Android -->
         <profile>
             <id>android</id>
             <properties>
@@ -115,17 +114,30 @@
                         <groupId>com.gluonhq</groupId>
                         <artifactId>gluonfx-maven-plugin</artifactId>
                         <configuration>
-                            <!-- Para Android, podrías omitir o simplificar la sección releaseConfiguration -->
+                            <target>android</target>
+                            <!-- Para Android: configuración mínima para evitar reemplazos conflictivos -->
                             <releaseConfiguration>
                                 <packageType>apk</packageType>
-                                <!-- Otros parámetros que sean necesarios para la compilación en Android -->
+                                <skipSigning>true</skipSigning>
                             </releaseConfiguration>
+                            <!-- Eliminamos runtimeArgs en Android -->
+                            <runtimeArgs/>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
         </profile>
 
-
+        <!-- Perfil para macOS (por defecto) -->
+        <profile>
+            <id>mac</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <target>host</target>
+                <packageType>dmg</packageType>
+            </properties>
+        </profile>
     </profiles>
 </project>
