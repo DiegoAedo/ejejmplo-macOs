@@ -96,9 +96,6 @@
                             <target>android</target>
 
                             <!-- Fuerza compileSdkVersion 31 -->
-                            <android>
-                                <compileSdkVersion>31</compileSdkVersion>
-                            </android>
 
                             <releaseConfiguration>
                                 <packageType>apk</packageType>
