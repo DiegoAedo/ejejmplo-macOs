@@ -27,20 +27,18 @@ jobs:
           echo "$(pwd)/apache-maven-3.8.8/bin" >> $GITHUB_PATH
 
       - name: Setup Android SDK
-        # Usamos @v3, que permite usar 'components' más fácilmente
         uses: android-actions/setup-android@v3
         with:
           sdk-version: 'commandlinetools-latest'
           components: |
-            # Puedes mantener estos o quitarlos si no quieres Android-31
-            platforms;android-31
-            build-tools;30.0.3
+            platform-tools
+            platforms;android-34
+            build-tools;34.0.0
+            extras;android;m2repository
+            extras;google;m2repository
 
-      - name: Accept Android licenses
+      - name: Accept Android SDK licenses
         run: yes | sdkmanager --licenses
-
-      - name: Install required packages for Gluon
-        run: sdkmanager --install "platform-tools" "platforms;android-34" "build-tools;34.0.0" "extras;android;m2repository" "extras;google;m2repository"
 
       - name: Download GraalVM CE for Java 17
         run: |
@@ -60,8 +58,9 @@ jobs:
           find . -type f
 
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: ejejmplo-apk
-          # Ajusta si el nombre del apk difiere
+          # Ajusta la ruta si el nombre de tu APK es distinto
           path: target/gluonfx/aarch64-android/ejejmplo-1.0.0.apk
+
