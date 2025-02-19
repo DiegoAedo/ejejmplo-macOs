@@ -85,7 +85,7 @@ jobs:
 
       # 10) Subir el APK como artifact (si se generó)
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@latest
         with:
           name: ejejmplo-apk
           path: target/gluonfx/aarch64-android/ejejmplo-1.0.0.apk
