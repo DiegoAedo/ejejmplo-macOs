@@ -33,6 +33,12 @@ jobs:
           accept-android-sdk-licenses: true
           packages: 'platforms;android-34 build-tools;34.0.0 platform-tools extras;android;m2repository extras;google;m2repository'
 
+      # Exportar ANDROID_SDK_ROOT o ANDROID_HOME
+      - name: Set ANDROID_SDK vars
+        run: |
+          echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> $GITHUB_ENV
+          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
+
       - name: Download GraalVM CE for Java 17
         run: |
           echo "Downloading GraalVM CE for Java 17..."
@@ -46,9 +52,7 @@ jobs:
           mvn -Pandroid gluonfx:build gluonfx:package
 
       - name: List generated files
-        run: |
-          echo "Listing files..."
-          find . -type f
+        run: find . -type f
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
