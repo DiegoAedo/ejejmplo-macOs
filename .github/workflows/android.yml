@@ -27,11 +27,12 @@ jobs:
           echo "$(pwd)/apache-maven-3.8.8/bin" >> $GITHUB_PATH
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+        uses: android-actions/setup-android@v3
         with:
-          api-level: 31
-          channel: stable
-          build-tools: '30.0.3'
+          sdk-version: 'commandlinetools-latest'
+          components: |
+            platforms;android-31
+            build-tools;30.0.3
 
       - name: Download GraalVM CE for Java 17
         run: |
@@ -40,10 +41,10 @@ jobs:
           tar -xzf graalvm.tar.gz
           echo "GRAALVM_HOME=$(pwd)/graalvm-ce-java17-22.3.1" >> $GITHUB_ENV
 
-      - name: Build with Maven (GluonFX for Android)
+      - name: Build and Package (GluonFX for Android)
         run: |
           echo "Using GraalVM at: $GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1"
-          mvn gluonfx:build -Pandroid
+          mvn -Pandroid gluonfx:build gluonfx:package
 
       - name: List generated files
         run: |
@@ -54,4 +55,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ejejmplo-apk
-          path: target/gluonfx/android/ejejmplo-1.0.0.apk
+          path: target/gluonfx/aarch64-android/ejejmplo-1.0.0.apk
