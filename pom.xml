@@ -16,6 +16,9 @@
         <maven.compiler.target>17</maven.compiler.target>
         <!-- Versión del plugin GluonFX -->
         <gluonfx.maven.plugin.version>1.0.23</gluonfx.maven.plugin.version>
+        <!-- Valores por defecto para macOS -->
+        <target>host</target>
+        <packageType>dmg</packageType>
     </properties>
 
     <dependencies>
@@ -51,12 +54,14 @@
                 <configuration>
                     <!-- Clase principal (asegúrate de que exista en src/main/java) -->
                     <mainClass>com.example.Main</mainClass>
-                    <!-- Objetivo: 'host' para compilar para la plataforma actual (macOS) -->
-                    <target>host</target>
+                    <!-- Usamos la propiedad 'target' para diferenciar entre macOS y Android -->
+                    <target>${target}</target>
                     <releaseConfiguration>
                         <vendor>MyCompany</vendor>
                         <description>Aplicación Nativa de ejejmplo</description>
-                        <packageType>dmg</packageType>
+                        <!-- Usamos la propiedad 'packageType'; para macOS sería 'dmg' y para Android 'apk' -->
+                        <packageType>${packageType}</packageType>
+                        <!-- Los siguientes parámetros son específicos para macOS; para Android pueden omitirse o ajustarse según la documentación -->
                         <macAppStore>false</macAppStore>
                         <bundleName>ejejmplo</bundleName>
                         <bundleShortVersion>1.0</bundleShortVersion>
@@ -64,6 +69,7 @@
                         <versionCode>1</versionCode>
                         <skipSigning>true</skipSigning>
                     </releaseConfiguration>
+                    <!-- Los runtimeArgs pueden mantenerse o ajustarse si fueran necesarios para Android -->
                     <runtimeArgs>
                         <runtimeArg>-H:+UnlockExperimentalVMOptions</runtimeArg>
                         <runtimeArg>--report-unsupported-elements-at-runtime</runtimeArg>
@@ -95,8 +101,18 @@
         </plugins>
     </build>
 
+    <!-- Definición de perfiles para poder compilar para macOS o Android -->
     <profiles>
-        <!-- Perfil por defecto para macOS -->
+        <!-- Perfil para Android -->
+        <profile>
+            <id>android</id>
+            <properties>
+                <!-- Para Android el target debe ser 'android' y el packageType 'apk' -->
+                <target>android</target>
+                <packageType>apk</packageType>
+            </properties>
+        </profile>
+        <!-- Perfil para macOS (por defecto) -->
         <profile>
             <id>mac</id>
             <activation>
@@ -104,6 +120,7 @@
             </activation>
             <properties>
                 <target>host</target>
+                <packageType>dmg</packageType>
             </properties>
         </profile>
     </profiles>
