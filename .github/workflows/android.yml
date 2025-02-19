@@ -74,7 +74,7 @@ jobs:
       # (Opcional) Subir los logs como artifact si falla
       - name: Upload Substrate logs
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: substrate-logs
           path: target/gluonfx/log/
@@ -85,7 +85,7 @@ jobs:
 
       # 10) Subir el APK como artifact (si se generó)
       - name: Upload APK artifact
-        uses: actions/upload-artifact@latest
+        uses: actions/upload-artifact@v4
         with:
           name: ejejmplo-apk
           path: target/gluonfx/aarch64-android/ejejmplo-1.0.0.apk
