@@ -29,17 +29,9 @@ jobs:
       - name: Setup Android SDK (v3)
         uses: android-actions/setup-android@v3
         with:
-          # Instala las command line tools más recientes
           cmdline-tools-version: "latest"
-          # Acepta automáticamente las licencias
           accept-android-sdk-licenses: true
-          # Lista de paquetes, uno por línea (asegúrate de usar LF, no CRLF)
-          packages: |
-            platforms;android-34
-            build-tools;34.0.0
-            platform-tools
-            extras;android;m2repository
-            extras;google;m2repository
+          packages: 'platforms;android-34 build-tools;34.0.0 platform-tools extras;android;m2repository extras;google;m2repository'
 
       - name: Download GraalVM CE for Java 17
         run: |
