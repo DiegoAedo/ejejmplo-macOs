@@ -26,19 +26,17 @@ jobs:
           tar -xzf apache-maven-3.8.8-bin.tar.gz
           echo "$(pwd)/apache-maven-3.8.8/bin" >> $GITHUB_PATH
 
-      - name: Setup Android SDK (with Android 34)
+      - name: Setup Android SDK (v3)
         uses: android-actions/setup-android@v3
         with:
-          sdk-version: 'commandlinetools-latest'
-          components: |
-            platform-tools
+          cmdline-tools-version: "latest"
+          accept-android-sdk-licenses: true
+          packages: |
             platforms;android-34
             build-tools;34.0.0
+            platform-tools
             extras;android;m2repository
             extras;google;m2repository
-
-      - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses
 
       - name: Download GraalVM CE for Java 17
         run: |
