@@ -33,6 +33,13 @@ jobs:
           channel: stable
           build-tools: '30.0.3'
 
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
+
+      # (Opcional pero recomendado) Instalar extras que a veces requiere Substrate
+      - name: Install additional SDK packages
+        run: sdkmanager --install "platform-tools" "extras;android;m2repository" "extras;google;m2repository"
+
       - name: Download GraalVM CE for Java 17
         run: |
           echo "Downloading GraalVM CE for Java 17..."
@@ -40,7 +47,7 @@ jobs:
           tar -xzf graalvm.tar.gz
           echo "GRAALVM_HOME=$(pwd)/graalvm-ce-java17-22.3.1" >> $GITHUB_ENV
 
-      # IMPORTANTE: Si quieres generar el APK, debes invocar "gluonfx:package"
+      # IMPORTANTE: para generar el .apk se necesita gluonfx:package
       - name: Build and Package (GluonFX for Android)
         run: |
           echo "Using GraalVM at: $GITHUB_WORKSPACE/graalvm-ce-java17-22.3.1"
@@ -55,4 +62,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ejejmplo-apk
+          # Ajusta si el nombre no coincide
           path: target/gluonfx/aarch64-android/ejejmplo-1.0.0.apk
