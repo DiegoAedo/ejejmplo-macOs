@@ -90,6 +90,7 @@
                         <artifactId>gluonfx-maven-plugin</artifactId>
                         <configuration>
                             <target>android</target>
+
                             <releaseConfiguration>
                                 <packageType>apk</packageType>
                                 <skipSigning>true</skipSigning>
