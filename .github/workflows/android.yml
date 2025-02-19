@@ -52,7 +52,7 @@ jobs:
           find . -type f
 
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ejejmplo-apk
           path: target/gluonfx/aarch64-android/ejejmplo-1.0.0.apk
