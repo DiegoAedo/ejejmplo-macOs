@@ -75,4 +75,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ejejmplo-apk
-          path: target/gluonfx/aarch64-android/ejejmplo-1.0.0.apk
+          path: target/gluonfx/aarch64-android/gvm/ejejmplo.apk
