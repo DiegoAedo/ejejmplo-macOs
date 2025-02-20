@@ -16,19 +16,19 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <!-- Versión del plugin GluonFX -->
-        <gluonfx.maven.plugin.version>1.0.23</gluonfx.maven.plugin.version>
-
         <!-- Clase principal -->
         <mainClass>com.example.Main</mainClass>
 
-        <!-- Valores por defecto (se pueden sobrescribir en perfiles) -->
+        <!-- Versión del plugin GluonFX -->
+        <gluonfx.maven.plugin.version>1.0.23</gluonfx.maven.plugin.version>
+
+        <!-- Objetivo (host por defecto) -->
         <target>host</target>
         <packageType>dmg</packageType>
     </properties>
 
     <dependencies>
-        <!-- Dependencias de JavaFX -->
+        <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -54,7 +54,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Plugin GluonFX con configuración básica para host (mac por defecto) -->
+            <!-- GluonFX plugin para la plataforma 'host' (mac por defecto) -->
             <plugin>
                 <groupId>com.gluonhq</groupId>
                 <artifactId>gluonfx-maven-plugin</artifactId>
@@ -73,7 +73,6 @@
                         <versionCode>1</versionCode>
                         <skipSigning>true</skipSigning>
                     </releaseConfiguration>
-                    <!-- Sin runtimeArgs en el bloque global -->
                 </configuration>
             </plugin>
         </plugins>
@@ -94,9 +93,6 @@
                         <artifactId>gluonfx-maven-plugin</artifactId>
                         <configuration>
                             <target>android</target>
-
-                            <!-- Fuerza compileSdkVersion 31 -->
-
                             <releaseConfiguration>
                                 <packageType>apk</packageType>
                                 <skipSigning>true</skipSigning>
@@ -151,7 +147,7 @@
                                 <runtimeArg>--add-exports=javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED</runtimeArg>
                                 <runtimeArg>--initialize-at-build-time=ch.qos.logback,javafx</runtimeArg>
                                 <runtimeArg>--initialize-at-build-time=com.sun.management.internal.OperatingSystemImpl</runtimeArg>
-                                <!-- Escapamos $ en NativeMediaManager\$NativeMediaManagerInitializer -->
+                                <!-- Escapar $ -->
                                 <runtimeArg>--initialize-at-run-time=sun.awt,javafx.scene.web.WebEngine,javafx.scene.web.WebView,com.sun.webkit.WebPage,com.sun.webkit.FileSystem,com.sun.media.jfxmediaimpl.MediaUtils,com.sun.media.jfxmediaimpl.NativeMediaManager,com.sun.media.jfxmediaimpl.NativeMediaManager\$NativeMediaManagerInitializer</runtimeArg>
                                 <runtimeArg>--allow-incomplete-substitutions</runtimeArg>
                                 <runtimeArg>-H:+ReportExceptionStackTraces</runtimeArg>
