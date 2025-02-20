@@ -29,13 +29,14 @@ jobs:
           tar -xzf apache-maven-3.8.8-bin.tar.gz
           echo "$(pwd)/apache-maven-3.8.8/bin" >> $GITHUB_PATH
 
-      # 4) Instalar Android SDK con la acción v3 (ej. Android 34)
       - name: Setup Android SDK (v3)
         uses: android-actions/setup-android@v3
         with:
           cmdline-tools-version: "latest"
           accept-android-sdk-licenses: true
-          packages: 'platforms;android-35 build-tools;35.0.2 platform-tools extras;android;m2repository extras;google;m2repository'
+          packages: 'platforms;android-35 build-tools;35.0.0 platform-tools extras;android;m2repository extras;google;m2repository'
+
+
 
       # 5) SOLAMENTE define ANDROID_HOME
       #    (No definas ANDROID_SDK_ROOT también)
