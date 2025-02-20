@@ -35,7 +35,7 @@ jobs:
         with:
           cmdline-tools-version: "latest"
           accept-android-sdk-licenses: true
-          packages: 'platforms;android-34 build-tools;34.0.0 platform-tools extras;android;m2repository extras;google;m2repository'
+          packages: 'platforms;android-35 build-tools;35.0.2 platform-tools extras;android;m2repository extras;google;m2repository'
 
       # 5) SOLAMENTE define ANDROID_HOME
       #    (No definas ANDROID_SDK_ROOT también)
